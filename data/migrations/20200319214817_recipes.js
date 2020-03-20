@@ -5,11 +5,6 @@ exports.up = function(knex) {
       tbl.varchar('name', 255)
          .unique()
          .notNullable();
-      tbl.varchar('steps')
-         .unique()
-         .notNullable()
-    
-
     })  
   .createTable('ingredients', tbl => {
       tbl.increments();
@@ -34,7 +29,26 @@ exports.up = function(knex) {
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
     tbl.float('quantity')
-        .notNullable()   
+        .notNullable()
+})         
+.createTable('steps', tbl => {
+    tbl.increments();
+    
+    tbl.integer('step_number')
+        .unsigned()
+        .notNullable();
+
+    tbl.text('instructions')
+        .notNullable();
+
+    tbl.integer('recipe_id')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('recipes')
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE');
+      
     })
 };
 
